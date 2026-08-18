@@ -1,0 +1,93 @@
+name: Build Browser Extension
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-extensions:
+    name: Build Chrome & Firefox Extensions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Chrome Extension
+        run: ./gradlew :komfExtensionChrome --no-daemon
+
+      - name: Build Firefox Extension
+        run: ./gradlew :komfExtensionFirefox --no-daemon
+
+      - name: Locate extension archives
+        run: |
+          DIST_DIR="komelia-komf-extension/app/build/distributions"
+          echo "Distribution directory contents:"
+          ls -lh "$DIST_DIR"
+
+      - name: Upload Chrome extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: komf-extension-chrome
+          path: komelia-komf-extension/app/build/distributions/webextension_prod_chrome.zip
+          if-no-files-found: error
+
+      - name: Upload Firefox extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: komf-extension-firefox
+          path: komelia-komf-extension/app/build/distributions/webextension_prod_firefox.zip
+          if-no-files-found: error
+
+  release:
+    name: Create GitHub Release
+    needs: build-extensions
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download Chrome artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: komf-extension-chrome
+          path: dist/
+
+      - name: Download Firefox artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: komf-extension-firefox
+          path: dist/
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/webextension_prod_chrome.zip
+            dist/webextension_prod_firefox.zip
+          generate_release_notes: true
