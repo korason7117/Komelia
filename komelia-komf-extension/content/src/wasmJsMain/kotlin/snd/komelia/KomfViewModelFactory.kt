@@ -79,7 +79,7 @@ class KomfViewModelFactory(
 
     fun getKomfIdentifyDialogViewModel(
         seriesId: KomfServerSeriesId,
-        libraryId: KomfServerLibraryId,
+        libraryId: KomfServerLibraryId?,
         seriesName: String,
         mediaServer: MediaServer,
         onDismissRequest: () -> Unit

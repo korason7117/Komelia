@@ -36,7 +36,7 @@ import snd.komf.api.MediaServer
 fun IdentifyDialog(
     mediaServer: MediaServer,
     seriesId: KomfServerSeriesId,
-    libraryId: KomfServerLibraryId,
+    libraryId: KomfServerLibraryId?,
     seriesName: String?,
     onDismissRequest: () -> Unit,
 ) {

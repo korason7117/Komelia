@@ -18,7 +18,7 @@ class KomfResetMetadataDialogViewModel(
 
     suspend fun onSeriesReset(
         seriesId: KomfServerSeriesId,
-        libraryId: KomfServerLibraryId,
+        libraryId: KomfServerLibraryId?,
     ) {
         appNotifications.runCatchingToNotifications {
             komfMetadataClient.resetSeries(

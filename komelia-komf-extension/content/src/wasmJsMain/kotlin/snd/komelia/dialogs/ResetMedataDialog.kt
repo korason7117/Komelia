@@ -13,7 +13,7 @@ import snd.komf.api.MediaServer
 fun ResetSeriesMetadataDialog(
     mediaServer: MediaServer,
     seriesId: KomfServerSeriesId,
-    libraryId: KomfServerLibraryId,
+    libraryId: KomfServerLibraryId?,
     onDismissRequest: () -> Unit,
 ) {
     val viewModelFactory = LocalKomfViewModelFactory.current

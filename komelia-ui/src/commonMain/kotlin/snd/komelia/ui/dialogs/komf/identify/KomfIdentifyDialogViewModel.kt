@@ -36,7 +36,7 @@ import snd.komf.client.KomfMetadataClient
 
 class KomfIdentifyDialogViewModel(
     seriesId: KomfServerSeriesId,
-    libraryId: KomfServerLibraryId,
+    libraryId: KomfServerLibraryId?,
     seriesName: String,
     komfMetadataClient: KomfMetadataClient,
     komfJobClient: KomfJobClient,
@@ -223,7 +223,7 @@ class KomfIdentifyDialogViewModel(
     class SearchResultsState(
 //        private val series: KomgaSeries,
         private val seriesId: KomfServerSeriesId,
-        private val libraryId: KomfServerLibraryId,
+        private val libraryId: KomfServerLibraryId?,
         private val komfMetadataClient: KomfMetadataClient,
         private val appNotifications: AppNotifications,
         private val onComplete: (KomfMetadataJobId) -> Unit,
@@ -261,7 +261,7 @@ class KomfIdentifyDialogViewModel(
 
     class ConfigState(
         private val seriesId: KomfServerSeriesId,
-        private val libraryId: KomfServerLibraryId,
+        private val libraryId: KomfServerLibraryId?,
         seriesName: String,
         private val komfMetadataClient: KomfMetadataClient,
         private val appNotifications: AppNotifications,

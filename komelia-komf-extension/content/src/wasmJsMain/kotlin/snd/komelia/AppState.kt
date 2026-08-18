@@ -238,13 +238,13 @@ sealed interface KomfActiveDialog {
     object Settings : KomfActiveDialog
     data class SeriesIdentify(
         val seriesId: KomfServerSeriesId,
-        val libraryId: KomfServerLibraryId,
+        val libraryId: KomfServerLibraryId?,
         val seriesTitle: String
     ) : KomfActiveDialog
 
     data class SeriesReset(
         val seriesId: KomfServerSeriesId,
-        val libraryId: KomfServerLibraryId,
+        val libraryId: KomfServerLibraryId?,
     ) : KomfActiveDialog
 
     data class LibraryReset(

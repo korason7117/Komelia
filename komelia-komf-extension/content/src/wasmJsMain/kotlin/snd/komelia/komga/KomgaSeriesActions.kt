@@ -47,8 +47,7 @@ class KomgaSeriesActions(
         val libraryId = getLibraryId()
         val seriesTitle = getSeriesTitle()
         when {
-            seriesId == null -> currentDialog.value = KomfActiveDialog.ErrorDialog("Failed to fine seriesId")
-            libraryId == null -> currentDialog.value = KomfActiveDialog.ErrorDialog("Failed to find libraryId")
+            seriesId == null -> currentDialog.value = KomfActiveDialog.ErrorDialog("Failed to find seriesId")
             seriesTitle == null -> currentDialog.value = KomfActiveDialog.ErrorDialog("Failed to find series title")
             else -> currentDialog.value = KomfActiveDialog.SeriesIdentify(
                 seriesId = seriesId,
@@ -62,8 +61,7 @@ class KomgaSeriesActions(
         val seriesId = getSeriesId()
         val libraryId = getLibraryId()
         when {
-            seriesId == null -> currentDialog.value = KomfActiveDialog.ErrorDialog("Failed to fine seriesId")
-            libraryId == null -> currentDialog.value = KomfActiveDialog.ErrorDialog("Failed to find libraryId")
+            seriesId == null -> currentDialog.value = KomfActiveDialog.ErrorDialog("Failed to find seriesId")
             else -> currentDialog.value = KomfActiveDialog.SeriesReset(
                 seriesId = seriesId,
                 libraryId = libraryId,
