@@ -1,0 +1,47 @@
+name: Build Firefox Extension
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-firefox:
+    name: Build Firefox Extension
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Firefox Extension
+        run: ./gradlew :komfExtensionFirefox --no-daemon
+
+      - name: Upload Firefox extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: komf-extension-firefox
+          path: komelia-komf-extension/app/build/distributions/webextension_prod_firefox.zip
+          if-no-files-found: error
