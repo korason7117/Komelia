@@ -26,6 +26,13 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Checkout komf fork
+        uses: actions/checkout@v4
+        with:
+          repository: korason7117/komf
+          ref: master
+          path: komf-fork
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -33,11 +40,28 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: Strip GPG signing from komf-fork publishing config
+        working-directory: komf-fork
+        run: |
+          sed -i '/signAllPublications()/d' komf-client/build.gradle.kts komf-api-models/build.gradle.kts
+          sed -i '/^signing {/,/^}/d' komf-client/build.gradle.kts komf-api-models/build.gradle.kts
+
+      - name: Grant execute permission for gradlew (komf-fork)
+        working-directory: komf-fork
+        run: chmod +x gradlew
+
+      - name: Publish komf-client to mavenLocal
+        working-directory: komf-fork
+        run: ./gradlew publishToMavenLocal --no-daemon
+
+      - name: Debug published artifacts
+        run: find ~/.m2/repository/io/github/snd-r/komf -type f | sort
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Build Firefox Extension
-        run: ./gradlew :komfExtensionFirefox --no-daemon
+        run: ./gradlew :komfExtensionFirefox --no-daemon --refresh-dependencies
 
       - name: Upload Firefox extension artifact
         uses: actions/upload-artifact@v4
