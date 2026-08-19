@@ -252,6 +252,7 @@ class KomfIdentifyDialogViewModel(
             return appNotifications.runCatchingToNotifications {
                 komfMetadataClient.getSeriesCover(
                     libraryId = libraryId,
+                    seriesId = seriesId,
                     provider = result.provider,
                     providerSeriesId = result.resultId
                 )
