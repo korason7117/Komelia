@@ -11,7 +11,6 @@ group = "io.github.snd-r.komelia.offline"
 version = "unspecified"
 
 kotlin {
-    jvmToolchain(17)
 
     android {
         namespace = "io.github.snd_r.komelia.offline"
@@ -48,6 +47,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.core)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.komga.client)
+            implementation(libs.komf.client)
             implementation(libs.ktor.client.core)
         }
 

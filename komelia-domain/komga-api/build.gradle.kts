@@ -11,7 +11,6 @@ group = "io.github.snd-r.komelia.komga.api"
 version = "unspecified"
 
 kotlin {
-    jvmToolchain(17)
 
     android {
         namespace = "io.github.snd_r.komelia.komga.api"
@@ -32,6 +31,7 @@ kotlin {
         }
         commonMain.dependencies {
             api(libs.komga.client)
+            api(libs.komf.client)
             implementation(libs.kotlinx.serialization.core)
         }
 
